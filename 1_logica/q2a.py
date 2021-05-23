@@ -1,32 +1,34 @@
-class Stack:
-    """ Classe que representa uma fila """
+class Estacionamento():
+    """ Classe que representa o estacionamento Nelnelson, baseada na estrutura de pilha """
 
     def __init__(self):
-        self.items = []
+        self.carros = []
 
-    def isEmpty(self):
-        return self.items == []
+    def vazio(self):
+        return self.carros == []
 
-    def push(self, item):
-        self.items.append(item)
+    def entra_carro(self, item):
+        self.carros.append(item)
 
-    def pop(self):
-        return self.items.pop()
+    def sai_carro(self):
+        return self.carros.pop()
 
-    def peek(self):
-        return self.items[len(self.items)-1]
+    def tamanho(self):
+        return len(self.carros)
 
-    def size(self):
-        return len(self.items)
 
 def verificar_estacionamento(file_path):
-    """ Verifica se as entradas e saidas de carros no estacionamento do Nelnelson sao possiveis
+    """ Verifica se existe algum problema nas entradas e saidas de carros no estacionamento Nelnelson
+
+        :param - file_path (str): caminho do arquivo txt contendo as entradas e saidas dos carros
+
+        :return - printa sim, caso esteja tudo certo; ou nao, caso haja algum problema
     """
 
     carros = open(file_path, "r")
 
     num_vagas = int(carros.readline().split(" ")[0])
-    estacionamento = Stack()
+    estacionamento = Estacionamento()
     tudo_certo = True
 
     for carro in carros:
@@ -34,23 +36,21 @@ def verificar_estacionamento(file_path):
 
         if carro > 0:
 
-            if (estacionamento.size() == num_vagas):
+            if (estacionamento.tamanho() == num_vagas):
                 tudo_certo = False
                 break
 
-            estacionamento.push(carro)
+            estacionamento.entra_carro(carro)
             
         else:
 
-            proximo_carro = estacionamento.pop()
+            proximo_carro = estacionamento.sai_carro()
             
             if(proximo_carro != -carro):
                 tudo_certo = False
                 break
 
-    if (tudo_certo and estacionamento.isEmpty()):
+    if (tudo_certo and estacionamento.vazio()):
         print("sim")
     else:
         print("nao")
-
-verificar_estacionamento("estacionamento3.txt")
